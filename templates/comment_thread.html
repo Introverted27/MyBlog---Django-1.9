@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block head_title %}
+{{ instance.title }} | {{ block.super }}
+{% endblock head_title %}
+
+{% block content %}
+{{ object }}
+<div class="row jumbotron">
+  <div class='col-sm-6'>
+    <div class="lead">
+      <strong>{{ comment.content_object.title }} : Comments</strong>
+    </div>
+    <hr>
+    <p>{{ comment.content }}</p>
+    <footer class="blockquote-footer">
+      via {{ comment.user }} | <cite>{{ comment.timestamp|timesince }} ago</cite>
+      {% if request.user == comment.user %}<a href='{{ comment.get_delete_url }}'>Delete</a> {% endif %}
+    </footer>
+    <hr/>
+    <div>
+      {% for child_comment in comment.children %}
+      <blockquote class="ml-3">
+      <p>{{ child_comment.content }}</p>
+      <footer class="blockquote-footer">
+        via {{ child_comment.user }} | <cite>{{ child_comment.timestamp|timesince }} ago</cite>
+        {% if request.user == comment.user %}<a href='{{ comment.get_delete_url }}'>Delete</a> {% endif %}
+      </footer>
+      </blockquote>
+      {% endfor %}
+      {% if request.user.is_authenticated %}
+      <form class="reply-form" method="POST" action="."> {% csrf_token %}
+        {{ form|crispy }}
+        <input type='hidden' name='parent_id' value='{{ comment.id }}'>
+        <input class="btn btn-outline-primary btn-lg" type='submit' value='Reply' class='btn btn-default'>
+      </form>
+      {% else %}
+        <p>You must login to comment </p>
+      {% endif %}
+    </div>
+    <hr/>
+  </div>
+</div>
+
+{% endblock content %}

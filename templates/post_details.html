@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block head_title %}{{ instance.title }} | Blog {% endblock head_title %}
+
+{% block post_detail_link %} <li><a href='{{ instance.get_absolute_url }}'>{{ instance.title }}</a></li> {% endblock %}
+
+{% block content %}
+
+<div class="row">
+  <div class="col-sm-9">
+    <h1> {{ title }} </h1>
+    <small><strong>{% if instance.draft %}<span style='color:red;'>Draft</span> {% endif %} {{ instance.publish }}</strong></small>
+    <small>Read time: {% if instance.read_time <= 1 %} < 1 Minute {% else %}{{ instance.read_time }} minutes {% endif %}</small>
+    {% if instance.user.get_full_name %}
+    <small><strong>Created By: {{ instance.user }}</strong></small>
+    {% endif %}
+    <hr>
+  </div>
+</div>
+
+{% if instance.image %}
+<div class="row">
+  <div class="col-sm-12">
+    <img class="col-sm-9 img-fluid" src="{{ instance.image.url }}" alt="">
+  </div>
+</div>
+{% endif %} <br>
+
+<div class="row">
+  <div class="col-sm-9 justify-content-between">
+    <div class="fb-like" data-href="{{ request.build_absolute_uri }}" data-layout="standard" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div> <br/>
+
+    <a class="btn btn-outline-info btn-sm" href="https://twitter.com/home?status={{ share_string }}%20{{ request.build_absolute_uri }}">Twitter</a>
+
+    <a class="btn btn-outline-info btn-sm" href='https://plus.google.com/share?url={{ request.build_absolute_uri }}'>Google+</a>
+
+    <a class="btn btn-outline-info btn-sm" href="https://www.linkedin.com/shareArticle?mini=true&url={{ request.build_absolute_uri }}&title={{ instance.title }}&summary={{ share_string }}&source={{ request.build_absolute_uri }}">Linkedin</a>
+
+    {% if request.user == instance.user %}
+    <a class="btn btn-outline-danger btn-sm" href="{{ instance.get_absolute_url }}edit">Edit</a>
+    {% endif %}
+    <hr>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-9">
+    <div class="post-detail-item"> {{ instance.get_markdown }} </div>
+    <hr>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-9">
+    <p class="lead"><h4>Comments</h4></p>
+    {% if request.user.is_authenticated %}
+    <form method="POST" action="#"> {% csrf_token %}
+      {{ comment_form|crispy }}
+      <input class="btn btn-outline-primary btn-sm" type='submit' value='Post comment'>
+    </form>
+    {% else %}
+      You must <a href="{% url 'login' %}">login</a> to comment
+    {% endif %}
+    <hr/>
+    {% for comment in comments %}
+    <blockquote>
+      <p class="mb-0">{{ comment.content }}</p>
+      <footer class="blockquote-footer">
+        <small>via {{ comment.user }} |
+          <cite>{{ comment.timestamp|timesince }} ago | <a class='' href='{{ comment.get_absolute_url }}'>Thread</a></cite>
+          {% if comment.children.count = 0 %} | <a class='comment-reply-btn' href='#'> Reply </a>
+          {% elif comment.children.count = 1 %} | <a class='comment-reply-btn' href='#'> 1 Reply </a>
+          {% elif comment.children.count > 1 %} | <a class='comment-reply-btn' href='#'> {{ comment.children.count }} Replies </a>
+          {% endif %}
+
+        </small>
+      </footer>
+      <div class="comment-reply" style="display:none">
+        {% for child_comment in comment.children %}
+        <blockquote class="ml-3">
+          <p class="mb-0">{{ child_comment.content }}</p>
+          <footer class="blockquote-footer"><small>via {{ child_comment.user }} | <cite>{{ child_comment.timestamp|timesince }} ago</cite></small></footer>
+        </blockquote>
+        {% endfor %}
+        <form class="reply-form" method="POST" action="#"> {% csrf_token %}
+          {{ comment_form|crispy }}
+          <input type="hidden" name="parent_id" value="{{ comment.id }} ">
+          <input class="btn btn-outline-primary btn-sm" type='submit' value='Reply'>
+        </form>
+      </div>
+    </blockquote>
+    <hr/>
+    {% endfor %}
+  </div>
+</div>
+{% endblock content %}

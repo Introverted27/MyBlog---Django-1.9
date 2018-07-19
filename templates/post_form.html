@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block head_extra %}
+{{ form.media }}
+{% endblock head_extra %}
+
+
+{% block content %}
+
+<div class="jumbotron">
+  <div class="row">
+    <div class='col-sm-6'>
+    <h1>Preview</h1>
+    <hr/>
+      <div class='content-preview'>
+        <h3 id='preview-title'></h3>
+        <p id='preview-content'></p>
+      </div>
+    </div>
+
+    <div class="col-sm-6">
+      <form class="add-post" action="" enctype="multipart/form-data" method="post">
+        {% csrf_token %}
+        {{ form | crispy }}
+        <input class="btn btn-outline-primary" type="submit" name="" value="Post">
+      </form>
+    </div>
+
+
+  </div>
+</div>
+
+{% endblock content %}

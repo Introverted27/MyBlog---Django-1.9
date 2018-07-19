@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load markdown_deux_tags %}
+
+
+{% block content %}
+
+<h1>{{ title }}</h1>
+<div class="row">
+  <div class="col-sm-9">
+    <form class="" method='GET' action=''>
+      <div class="input-group">
+        <input class="form-control" type="search" name='q' placeholder="Search Posts" aria-label="Search" value='{{ request.GET.q }}'>
+        <div class="input-group-append">
+          <button class="btn btn-outline-primary" type="submit"> <i class="fas fa-search"></i> </button>
+        </div>
+      </div>
+    </form>
+    <hr>
+  </div>
+</div>
+
+
+
+{% for obj in object_list %}
+<div class="row">
+  <div class="col-sm-9">
+    <div class="card" >
+      {% if obj.image %}
+      <img class="card-img-top" src="{{ obj.image.url}}" alt="Card image cap">
+      {% endif %}
+      <div class="card-body post-detail-item">
+        {% if obj.draft %}<h6>Staff only: Draft{% endif %} {% if obj.publish > today %}, Future Post</h6>{% endif %}
+        <h5 class="card-title"><a href='{{ obj.get_absolute_url }}'>{{ obj.title }}</a></h5> {{ obj.publish }}<br/>
+        {% if obj.user.get_full_name %}<p>Created By: {{ obj.user.get_full_name }}</p>{% endif %}
+        <p class="card-text post-detail-item">{{ obj.get_markdown | truncatechars:270 }}<br/></p>
+        <div class="">
+          <a href="{{ obj.get_absolute_url }}" class="btn btn-outline-primary">View</a>
+        </div>
+      </div>
+    </div>
+    <hr>
+  </div>
+
+</div>
+
+{% endfor %}
+
+
+<div class="pagination row">
+  <div class="step-links col-sm-9">
+    <span>
+      {% if object_list.has_previous %}
+        <a class="btn btn-outline-info btn-sm " href="?{{ page_request_var }}={{ object_list.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Previous</a>
+      {% endif %}
+    </span>
+    <span class="current">
+      Page {{ object_list.number }} of {{ object_list.paginator.num_pages }}
+    </span>
+    <span>
+      {% if object_list.has_next %}
+        <a class="btn btn-outline-info btn-sm " href="?{{ page_request_var }}={{ object_list.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Next</a> <br>
+      {% endif %}
+    </span>
+  </div>
+</div>
+
+{% endblock content %}
