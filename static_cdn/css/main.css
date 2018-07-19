@@ -1,0 +1,11 @@
+h1 {
+  color: steelblue;
+}
+
+div .wmd-panel {
+  margin-left: 0 !important;
+}
+
+div .comment-reply{
+  display: none;
+}
