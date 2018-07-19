@@ -1,0 +1,27 @@
+[[source]]
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django-crispy-forms = "==1.7.2"
+django-filter = "==0.13.0"
+django-markdown-deux = "==1.0.5"
+django-pagedown = "==1.0.5"
+django-six = "==1.0.4"
+djangorestframework = "==3.3.3"
+"markdown2" = "==2.3.5"
+pytz = "==2018.5"
+dj-database-url = "==0.4.1"
+gunicorn = "==19.6.0"
+"psycopg2" = "==2.6.2"
+whitenoise = "==3.2.2"
+Django = "==1.9.5"
+Markdown = "==2.6.11"
+Pillow = "==5.1.0"
+django-heroku = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.6"
