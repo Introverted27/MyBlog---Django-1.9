@@ -27,7 +27,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'SOME+RANDOM+KEY(t$0&*hey0)a=!sntk8*wd
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['obscure-stream-98692.herokuapp.com/']
+ALLOWED_HOSTS = ['https://obscure-stream-98692.herokuapp.com/']
 
 
 # Application definition
