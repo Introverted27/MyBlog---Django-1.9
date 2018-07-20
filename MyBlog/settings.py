@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
 import os
-import django_heroku
+# import django_heroku
 import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -27,7 +27,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'SOME+RANDOM+KEY(t$0&*hey0)a=!sntk8*wd
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['https://obscure-stream-98692.herokuapp.com/']
+ALLOWED_HOSTS = ['obscure-stream-98692.herokuapp.com/']
 
 
 # Application definition
@@ -127,7 +127,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'IST'
 
 USE_I18N = True
 
@@ -155,13 +155,13 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.BrowsableAPIRenderer',
     ),
     "DEFAULT_AUTHENTICATION_CLASSES": (
-         # 'rest_framework.authentication.SessionAuthentication',
-         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
     ),
     "DEFAULT_PERMISSION_CLASSES": (
-         'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.IsAuthenticated',
     )
 }
 
-# Activate Django-Heroku.
-django_heroku.settings(locals())
+# # Activate Django-Heroku.
+# django_heroku.settings(locals())
