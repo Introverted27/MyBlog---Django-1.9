@@ -19,7 +19,6 @@ whitenoise = "==3.2.2"
 Django = "==1.9.5"
 Markdown = "==2.6.11"
 Pillow = "==5.1.0"
-django-heroku = "*"
 djangorestframework-jwt = "*"
 
 [dev-packages]

@@ -84,6 +84,7 @@ celerybeat-schedule
 # Environments
 .env
 .venv
+blog/
 env/
 venv/
 ENV/
