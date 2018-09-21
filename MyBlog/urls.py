@@ -25,15 +25,15 @@ from Accounts.views import (login_view, register_view, logout_view)
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^comments/', include("Comments.urls", namespace='comments')),
+    url(r'^comments/', include(("Comments.urls", 'comments'), namespace='comments')),
     url(r'^register/', register_view, name='register'),
     url(r'^login/', login_view, name='login'),
     url(r'^logout/', logout_view, name='logout'),
-    url(r'^', include("Posts.urls", namespace='posts')),
+    url(r'^', include(("Posts.urls", 'posts'), namespace='posts')),
     url(r'^api/auth/token/', obtain_jwt_token),
-    url(r'^api/posts/', include("Posts.api.urls", namespace='posts-api')),
-    url(r'^api/users/', include("Accounts.api.urls", namespace='users-api')),
-    url(r'^api/comments/', include("Comments.api.urls", namespace='comments-api')),
+    url(r'^api/posts/', include(("Posts.api.urls", 'posts-api'), namespace='posts-api')),
+    url(r'^api/users/', include(("Accounts.api.urls", 'users-api'), namespace='users-api')),
+    url(r'^api/comments/', include(("Comments.api.urls", 'comments-api'), namespace='comments-api')),
 
 ]
 if settings.DEBUG:

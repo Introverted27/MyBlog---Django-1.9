@@ -69,8 +69,8 @@
       <footer class="blockquote-footer">
         <small>via {{ comment.user }} |
           <cite>{{ comment.timestamp|timesince }} ago | <a class='' href='{{ comment.get_absolute_url }}'>Thread</a></cite>
-          {% if comment.children.count = 0 %} | <a class='comment-reply-btn' href='#'> Reply </a>
-          {% elif comment.children.count = 1 %} | <a class='comment-reply-btn' href='#'> 1 Reply </a>
+          {% if comment.children.count == 0 %} | <a class='comment-reply-btn' href='#'> Reply </a>
+          {% elif comment.children.count == 1 %} | <a class='comment-reply-btn' href='#'> 1 Reply </a>
           {% elif comment.children.count > 1 %} | <a class='comment-reply-btn' href='#'> {{ comment.children.count }} Replies </a>
           {% endif %}
 

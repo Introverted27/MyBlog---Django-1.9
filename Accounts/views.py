@@ -21,13 +21,13 @@ def login_view(request):
         if next:
             return redirect(next)
         return redirect("/")
-        print(request.user.is_authenticated())
+        print(request.user.is_authenticated)
     return render(request, "form.html", {"form":form, "title": title})
 
 
 def register_view(request):
     next = request.GET.get('next')
-    print(request.user.is_authenticated())
+    print(request.user.is_authenticated)
     title = "Register"
     form = UserRegisterForm(request.POST or None)
     if form.is_valid():
